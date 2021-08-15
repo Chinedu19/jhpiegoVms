@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %} 
+{% block title%}Add User{% endblock %}
+{% block content %}
+<h1 class="mt-4"> Add User</h1>
+
+<form style="width: 60%; padding: 10px 0; margin:0 auto;" method="POST" action="add">
+    <div class="mb-3"><label for="">First Name</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="text" placeholder="John" name="fname"></div>
+    <div class="mb-3"><label for="">Last Name</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="text" placeholder="Doe" name="lname"></div>
+    <div class="mb-3"><label for="">Email address</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="email" placeholder="sample@mail.com" name="email"></div>
+    <div class="mb-3"><label for="">Phone Number</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="tel" placeholder="0810415588" name="tel"></div>
+    <div class="mb-3"><label for="">Role</label>
+        <select class="form-control " name="role">
+            <option value="0" selected>Regular</option>
+            <option value="1">Admin</option>
+        </select>
+    </div>
+    <div class="mb-3"><label for="">Password</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="password" placeholder="your password" name="passw"></div>
+    <div class="mb-3"><label for="">Confirm Password</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="password" placeholder="confirm password" name="cPassw"></div>
+    
+    <center>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-dark" value="submit">
+        </div>
+    </center>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            {% if category == 'error' %}
+                            <center>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                                    {{ message }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </center>
+                            {% else %}
+                            <center>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                                    {{ message }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </center>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+</form>
+{% endblock %}

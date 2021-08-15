@@ -1,0 +1,199 @@
+{% extends "admin/base.html" %} 
+{% block title%}Summary{% endblock %}
+{% block content %}
+    <h1 class="mt-4">Report</h1>
+
+    <p>Dear {% if user.is_authenticated %}
+        {{ user.first_name }} {{ user.last_name }}
+        {% else %}
+        session user
+        {% endif %} here is a report of things in jpiego VMS</p>
+    <h3 class="mt-4">Vehicles</h3>
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="mb-0">
+                Number of vehicles: {{ countCar }}
+            </p>
+        </div>
+    </div>
+   
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            All Jhpiego fleet
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Reg. No</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Color</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Reg. No</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Color</th>
+                        <th>State</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                        <tr>
+                            <td>{{ vehicle.reg_no }}</td>
+                            <td>{{ vehicle.brand }}</td>
+                            <td>{{ vehicle.brand_model }}</td>
+                            <td>{{ vehicle.color }}</td>
+                            <td>{{ vehicle.state }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>  
+   
+    <h3 class="mt-4">Repairs</h3>
+    
+   
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            All Jhpiego Repairs
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Period</th>
+                        <th>Last Mileage Served</th>
+                        <th>Current Mileage</th>
+                        <th>Km Covered</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Period</th>
+                        <th>Last Mileage Served</th>
+                        <th>Current Mileage</th>
+                        <th>Km Covered</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for repair in repairs %}
+                        <tr>
+                            <td>{{ repair.reg_no }}</td>
+                            <td>{{ repair.period }}</td>
+                            <td>{{ repair.last_service_mileage }}</td>
+                            <td>{{ repair.current_service_mileage }}</td>
+                            <td>{{ repair.km_covered }}</td>
+                            <td>{{ repair.total_cost }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3 class="mt-4">Fuel Consumption</h3>
+   
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Fuel Consumption for all cars
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Period</th>
+                        <th>Opening Km</th>
+                        <th>Closing Km</th>
+                        <th>Km Covered</th>
+                        <th>Total Quantity(LTRS)</th>
+                        <th>Total Quantity(NGN)</th>
+                        <th>AVG. Price</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Period</th>
+                        <th>Opening Km</th>
+                        <th>Closing Km</th>
+                        <th>Km Covered</th>
+                        <th>Total Quantity(LTRS)</th>
+                        <th>Total Quantity(NGN)</th>
+                        <th>AVG. Price</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for consumption in fuel_consumptions %}
+                        <tr>
+                            <td>{{ consumption.reg_no }}</td>
+                            <td>{{ consumption.period }}</td>
+                            <td>{{ consumption.opening_km }}</td>
+                            <td>{{ consumption.closing_km }}</td>
+                            <td>{{ consumption.km_covered }}</td>
+                            <td>{{ consumption.total_Qty_purchased_ltrs }}</td>
+                            <td>{{ consumption.total_Qty_purchased_ngn }}</td>
+                            <td>{{ consumption.avg_price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h3 class="mt-4">Users</h3>
+   
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Users in the system
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.phone_number }}</td>
+                            {% if 0 == user.role %}
+                            <td>Regular</td>
+                            {% else %}
+                            <td>Admin</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+   
+{% endblock%}

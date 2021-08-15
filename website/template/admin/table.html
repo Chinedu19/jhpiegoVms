@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jpiego Web Report</title>
+    <style type="text/css">
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+        }
+
+        #table {
+            display: block;
+            position: relative;
+            margin: 0px auto;
+
+        }
+        .nav{
+            background-color: #121c35;
+            /*display: block;*/
+            width: 100%;
+            padding: 30px 0;
+            box-sizing: border-box;
+            float: left;
+        }
+        .nav h2{
+            display: inline;
+            float: left;
+            color: #fff;
+        }
+        .container{
+            width: 80%;
+            margin: 0 auto;
+            height: 100%;
+        }
+        .nav img{
+            float: right;
+        }
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 80%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="container">
+            <h2>Jhpiego {{ info|capitalize }} Report</h2>
+            
+            <h3 style="display: inline; float: right; color: #fff">Jhpego</h3>
+        </div>
+    </div>
+       
+            <h2 style="float: left;">Dear {% if user.is_authenticated %}
+                {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                user
+                {% endif %} here is a report of {{ info }} in jpiego VMS</p></h2>
+        <div id="table" style=""></div>
+        
+        <center>
+        <table>
+        <tr>
+            {% for head in header %}
+            <th>{{ head }}</th>
+            {% endfor %}
+        </tr>
+        {% if info == 'vehicles' %}
+            {% for vehicle in record %}
+            <tr>
+                <td>{{ vehicle.reg_no }}</td>
+                <td>{{ vehicle.brand }}</td>
+                <td>{{ vehicle.brand_model }}</td>
+                <td>{{ vehicle.color }}</td>
+                <td>{{ vehicle.state }}</td>
+            </tr>
+            {% endfor %}
+        {% elif info == 'repairs' %}
+            {% for repair in record %}
+                <tr>
+                    <td>{{ repair.reg_no }}</td>
+                    <td>{{ repair.period }}</td>
+                    <td>{{ repair.last_service_mileage }}</td>
+                    <td>{{ repair.current_service_mileage }}</td>
+                    <td>{{ repair.km_covered }}</td>
+                    <td>{{ repair.total_cost }}</td>
+                </tr>
+            {% endfor %}
+        {% elif info == 'users' %} 
+            {% for users in record %}
+                <tr>
+                    <td>{{ users.first_name }} {{ users.last_name }}</td>
+                    <td>{{ users.email }}</td>
+                    <td>{{ users.phone_number }}</td>
+                    {% if 0 == users.role %}
+                    <td>Regular</td>
+                    {% else %}
+                    <td>Admin</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        {% elif info == 'fuel'%}
+            {% for consumption in record %}
+                <tr>
+                    <td>{{ consumption.reg_no }}</td>
+                    <td>{{ consumption.period }}</td>
+                    <td>{{ consumption.opening_km }}</td>
+                    <td>{{ consumption.closing_km }}</td>
+                    <td>{{ consumption.closing_km - consumption.opening_km }}</td>
+                    <td>{{ consumption.total_Qty_purchased_ltrs }}</td>
+                    <td>{{ consumption.total_Qty_purchased_ngn }}</td>
+                    <td>{{ consumption.avg_price }}</td>
+                </tr>
+            {% endfor %}        
+        {% endif %}
+        </table>
+    </center>
+</body>
+
+<script>
+        let btnGet = document.querySelector('button');
+    let myTable = document.querySelector('#table');
+    let body = document.querySelector('body');
+    // let header = {{ header|safe }};
+    // let info = {{ info|safe }};
+    // let record = {{ record|safe }};
+
+let employees = [
+    { name: 'James', age: 21, country: 'United States' },
+    { name: 'Rony', age: 31, country: 'United Kingdom' },
+    { name: 'Peter', age: 58, country: 'Canada' },
+    { name: 'Marks', age: 20, country: 'Spain' }
+]
+
+let headers = ['Name', 'Age', 'Country'];
+
+// // document.addEventListener('DOMContentLoaded', () => {
+// //     let table = document.createElement('table');
+// //     let headerRow = document.createElement('tr');
+
+// //     headers.forEach(headerText => {
+// //         let header = document.createElement('th');
+// //         let textNode = document.createTextNode(headerText);
+// //         header.appendChild(textNode);
+// //         headerRow.appendChild(header);
+// //     });
+
+// //     table.appendChild(headerRow);
+
+// //     employees.forEach(emp => {
+// //         let row = document.createElement('tr');
+
+// //         Object.values(emp).forEach(text => {
+// //             let cell = document.createElement('td');
+// //             let textNode = document.createTextNode(text);
+// //             cell.appendChild(textNode);
+// //             row.appendChild(cell);
+// //         })
+
+// //         table.appendChild(row);
+// //     });
+
+// //     myTable.appendChild(table);
+// });
+</script>
+</html>

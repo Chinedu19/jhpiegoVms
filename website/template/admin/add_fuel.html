@@ -1,0 +1,63 @@
+{% extends "admin/base.html" %} 
+{% block title%}Add consumption data{% endblock %}
+{% block content %}
+<h1 class="mt-4"> Add Fuel Consumption data</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            {% if category == 'error' %}
+                            <center>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                                    {{ message }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </center>
+                            {% else %}
+                            <center>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                                    {{ message }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </center>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+{% endwith %}
+<form style="width: 60%; padding: 10px 0; margin:0 auto;" method="POST" action="add" enctype="multipart/form-data">
+    <div class="mb-3"><label for="">Vehicle</label>
+        <select class="form-control " name="vehicle" required>
+            {% for vehicle in vehicles %}
+            <option value="{{ vehicle.id }}">{{ vehicle.reg_no }} - {{ vehicle.brand }} {{ vehicle.brand_model }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3"><label for="">period</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="date" name="date" required></div>
+    <div class="mb-3"><label for="">opening Km</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="number" placeholder="400" name="opening_km" required></div>
+    <div class="mb-3"><label for="">closing Km</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="number" placeholder="480" name="closing_km" required></div>
+    <div class="mb-3"><label for="">Total Price Purchased</label><input class="form-control form-control-solid calc2" id="exampleFormControlInput1" type="number" placeholder="7500" name="ngn_purchased" value="0" onkeyup="avg()" required></div>
+    <div class="mb-3"><label for="">Total Ltrs Purchased</label><input class="form-control form-control-solid calc1" id="exampleFormControlInput1" type="number" placeholder="25" name="ltrs_purchased" value="0" onkeyup="avg()" required></div>
+    <div class="mb-3"><label for="">price per litre</label><input class="form-control form-control-solid calc3" id="exampleFormControlInput1" type="number" name="avg_price" required readonly></div>
+    <div class="mb-3"><label for="">Upload Attachments (Optional)</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="file" name="attachment"></div>
+    <div class="mb-3"><label for="">Comments (Optional)</label><textarea name="comments" class="form-control form-control-solid" cols="30" rows="5" placeholder="Comments"></textarea></div>
+    <center>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-dark" value="submit">
+        </div>
+    </center>
+    
+    
+</form>
+<script>
+    const ltrs = document.querySelector('.calc1');
+    const ngn = document.querySelector('.calc2');
+    const avg_price = document.querySelector('.calc3');
+    function avg() {
+        var num1 = ltrs.value;
+        var num2 = ngn.value;
+        console.log(num1);
+        console.log(num2);
+        var ltr = parseInt(num2) / parseInt(num1);
+        avg_price.value = ltr.toFixed(2);
+    }
+</script>
+{% endblock %}

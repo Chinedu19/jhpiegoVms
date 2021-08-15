@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %} 
+{% block title%}Summmay{% endblock %}
+{% block content %}
+    <h1 class="mt-4">Summary</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="mb-0">
+                Click the select info you want and download report button to download pdf
+            </p>
+        </div>
+    </div>
+    <select class="form-control dwn" style="width: 50%; float: left; margin-right: 10px;" name="field">
+        <option disabled selected>Select Info</option>
+        <option value="vehicles">Vehicles</option>
+        <option value="fuel">Fuel Consumption Data</option>
+        <option value="repairs">Repairs Info</option>
+        <option value="users">Users Info</option>
+    </select>
+   
+    <a href="/admin/report" id="alink" style="margin-bottom: 10px;" class="btn btn-success">download report</a>
+
+    <script>
+        var select = document.querySelector('.dwn');
+        var link = document.querySelector('#alink');
+        select.addEventListener('change', function (e) {
+            var option = select.value;
+            link.href = "report/download/" +option;
+        })
+    </script>
+    
+
+{% endblock%}

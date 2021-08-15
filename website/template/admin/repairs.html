@@ -1,0 +1,100 @@
+{% extends "admin/base.html" %} 
+{% block title%}Vehicle Repairs{% endblock %}
+{% block content %}
+    <h1 class="mt-4">Jhpiego Vehicle Repairs</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="mb-0">
+                All Jhpiego Repairs
+            </p>
+        </div>
+    </div>
+    <a href="repairs/add" style="margin-bottom: 10px;" class="btn btn-success">Add Repair info</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        {% if category == 'error' %}
+        <center>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                {{ message }}
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </center>
+        {% else %}
+        <center>
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                {{ message }}
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </center>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            All Jhpiego Repairs
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Period</th>
+                        <th>Last Mileage Served</th>
+                        <th>Current Mileage</th>
+                        <th>Km Covered</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Period</th>
+                        <th>Last Mileage Served</th>
+                        <th>Current Mileage</th>
+                        <th>Km Covered</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for repair in repairs %}
+                        <tr>
+                            <td>{{ repair.reg_no }}</td>
+                            <td>{{ repair.period }}</td>
+                            <td>{{ repair.last_service_mileage }}</td>
+                            <td>{{ repair.current_service_mileage }}</td>
+                            <td>{{ repair.km_covered }}</td>
+                            <td>{{ repair.total_cost }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Vehicle</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal_txt">Are you sure you want to delete the vehicle with the Registration number</div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><a id="modal_delete" class="btn btn-primary" href="fleet/delete/">Delete</a></div>
+        </div>
+    </div>
+</div>
+   <script>
+       var btn = document.querySelector('#modal_delete');
+       var txt = document.querySelector('#modal_txt');
+       const mod= (reg_numb) => {
+        txt.innerHTML = "Are you sure you want to delete the vehicle with the Registration number "+reg_numb;
+        modal_delete.href ="fleet/delete/"+ reg_numb;
+    }
+   </script> 
+{% endblock%}

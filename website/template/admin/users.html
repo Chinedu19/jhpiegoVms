@@ -1,0 +1,101 @@
+{% extends "admin/base.html" %} 
+{% block title%}Users{% endblock %}
+{% block content %}
+    <h1 class="mt-4">Jhpiego Users</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="mb-0">
+                All users listed here have been registered into the system's databse
+            </p>
+        </div>
+    </div>
+    <a href="users/add" style="margin-bottom: 10px;" class="btn btn-success">Add User</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        {% if category == 'error' %}
+        <center>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                {{ message }}
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </center>
+        {% else %}
+        <center>
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                {{ message }}
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </center>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Users Jhpiego
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.phone_number }}</td>
+                            {% if 0 == user.role %}
+                            <td>Regular</td>
+                            <td><a href='users/promote/{{ user.email }}'>Promote</a> <a href='#' data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="mod('{{user.first_name}} {{user.last_name}}','{{ user.email }}')">Delete</a></td>
+                            {% else %}
+                            <td>Admin</td>
+                            <td><a href='users/demote/{{ user.email }}'>Demote</a> <a href='#' data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="mod('{{user.first_name}} {{user.last_name}}','{{ user.email }}')">Delete</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal_txt">Are you sure you want to delete the user with the email</div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><a id="modal_delete" class="btn btn-primary" href="users/delete/">Delete</a></div>
+        </div>
+    </div>
+</div>
+   <script>
+       var btn = document.querySelector('#modal_delete');
+       var txt = document.querySelector('#modal_txt');
+       const mod= (name, reg_numb) => {
+        txt.innerHTML = "Are you sure you want to delete "+name;
+        modal_delete.href ="users/delete/"+ reg_numb;
+    }
+   </script> 
+{% endblock%}

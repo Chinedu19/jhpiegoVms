@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %} 
+{% block title%}Edit Vehicle{% endblock %}
+{% block content %}
+<h1 class="mt-4"> Edit Vehicle</h1>
+
+<form style="width: 60%; padding: 10px 0; margin:0 auto;" method="POST" action="http://127.0.0.1:5000/admin/fleet/edit/{{ vehicle['reg_no'] }}">
+    <div class="mb-3"><label for="">Reg Number</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="text" placeholder="RBC977AH" name="reg" value="{{ vehicle['reg_no'] }}" ></div>
+    <div class="mb-3"><label for="">Make</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="text" placeholder="Toyota" name="make" value="{{ vehicle['brand'] }}"></div>
+    <div class="mb-3"><label for="">Model</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="text" placeholder="Camry" name="model" value="{{ vehicle['brand_model'] }}"></div>
+    <div class="mb-3"><label for="">Color</label><input class="form-control form-control-solid" id="exampleFormControlInput1" type="text" placeholder="Gold" name="color" value="{{ vehicle['color'] }}"></div>
+    <div class="mb-3"><label for="">State</label>
+        <select class="form-control " name="state">
+            {% for state in states %}
+                {% if vehicle['state'] in state %}
+                    <option value="{{ state }}" selected>{{ state }}</option>
+                {% else %}
+                    <option value="{{ state }}">{{ state }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <center>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-dark" value="submit">
+        </div>
+    </center>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                            {% if category == 'error' %}
+                            <center>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                                    {{ message }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </center>
+                            {% else %}
+                            <center>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 50%; margin-top: 20px;">
+                                    {{ message }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </center>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+</form>
+{% endblock %}
