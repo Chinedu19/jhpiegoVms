@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jpiego Web Report</title>
+    <title>Jhpiego Web Report</title>
     <style type="text/css">
         body {
             width: 100%;
@@ -67,11 +67,11 @@
         <div class="container">
             <h2>Jhpiego {{ info|capitalize }} Report</h2>
             
-            <h3 style="display: inline; float: right; color: #fff">Jhpego</h3>
+            <h3 style="display: inline; float: right; color: #fff">Jhpiego</h3>
         </div>
     </div>
        
-            <h2 style="float: left;">Dear {% if user.is_authenticated %}
+            <h2 style="text-align: center;">Dear {% if user.is_authenticated %}
                 {{ user.first_name }} {{ user.last_name }}
                 {% else %}
                 user

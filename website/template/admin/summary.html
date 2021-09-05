@@ -6,7 +6,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <p class="mb-0">
-                Click the select info you want and download report button to download pdf
+                select info and download
             </p>
         </div>
     </div>
@@ -18,15 +18,22 @@
         <option value="users">Users Info</option>
     </select>
    
-    <a href="/admin/report" id="alink" style="margin-bottom: 10px;" class="btn btn-success">download report</a>
+    <a href="/admin/report" id="aLink" style="margin-bottom: 10px; color: white;" class="btn btn-secondary" target="_blank">Preview</a>
+    <a href="/admin/report" id="bLink" style="margin-bottom: 10px;" class="btn btn-success">Download</a>
 
     <script>
         var select = document.querySelector('.dwn');
-        var link = document.querySelector('#alink');
+        var aLink = document.querySelector('#aLink');
+        var link = document.querySelector('#bLink');
         select.addEventListener('change', function (e) {
             var option = select.value;
             link.href = "report/download/" +option;
-        })
+            aLink.href = "report/get/" +option;
+        });
+        aLink.addEventListener('click', (e) =>{
+            e.preventDefault();
+            window.open(aLink.href);  
+        });
     </script>
     
 

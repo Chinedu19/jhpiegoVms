@@ -371,14 +371,13 @@ def download_json(info):
     if info == 'vehicles':
         record = Vehicle.query.filter_by(isDeleted = 0).order_by(Vehicle.id)
 
-        header = ['Vehicle', 'Period', 'Last Mileage Served', 'Current Mileage', 'Km Covered', 'Total Cost']
+        header = ['Vehicle', 'Period', 'Last Mileage Served', 'Current Mileage', 'Km Covered']
     elif info == 'users':
         record = Users.query.filter_by(isDeleted = 0).order_by(Users.id)
-        record = db.session.execute(record)
-        header = ['Name', 'Email', 'Phone Number']
+        header = ['Name', 'Email', 'Phone Number','Role']
     elif info == 'fuel':
         record = Fuel.query.join(Vehicle, Fuel.vehicle == Vehicle.id).add_columns(Fuel.id, Fuel.vehicle,Fuel.period,Fuel.opening_km,Fuel.closing_km,Fuel.avg_price,Fuel.total_Qty_purchased_ltrs,Fuel.total_Qty_purchased_ngn, Vehicle.id,Vehicle.reg_no).filter(Fuel.id==Vehicle.id)
-        header = ['Vehicle', 'Period', 'Opening Km', 'Closing Km', 'Total Quantity (l)', 'Total Amount', 'Avg. Price']
+        header = ['Vehicle', 'Period', 'Opening Km', 'Closing Km', 'KM Covered', 'Total Quantity (l)', 'Total Amount', 'Avg. Price']
     elif info == 'repairs':
         record = Repairs.query.join(Vehicle, Repairs.vehicle == Vehicle.id).add_columns(Repairs.id, Repairs.vehicle,Repairs.period,Repairs.last_service_mileage, Repairs.current_service_mileage,Repairs.km_covered,Repairs.total_cost, Vehicle.id,Vehicle.reg_no).filter(Repairs.id==Vehicle.id)
         header = ['Vehicle', 'Period','Last Mileage Served', 'Current Mileage', 'Km Covered', 'Total Cost']
