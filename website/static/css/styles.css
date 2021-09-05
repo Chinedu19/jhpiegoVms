@@ -11263,3 +11263,7 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+h1,h2,h3,h4,h5,p,a,button{
+  text-transform: capitalize;
+}

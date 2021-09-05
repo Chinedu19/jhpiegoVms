@@ -123,19 +123,24 @@ def admin_home():
 @admin.route('/chart_data/<string:duration>')
 def chart_info(duration=30, chartID = 'chart_ID', chart_type = 'line', chart_height = 500):
     chart_fuel_data = get_fuel_consumption_data('fuel', duration)
+    data = [{'message' : "No records available"}]
     amountData = [x[0] for x in chart_fuel_data[1]]
     millageData = [x[1] for x in chart_fuel_data[1]]
-    data = [
-        {'chart':{"renderTo": chartID, "type": chart_type, "height": chart_height},
-    'series': [{"name": 'Amount', "data": amountData}, {"name": 'Millage', "data": millageData}],
-    'title' : {"text": 'Jhpiego Fuel Consumption'},
-    'xAxis' : {'categories': chart_fuel_data[0]},
-    'yAxis' : {"title": {"text": 'Fuel Price'}, 'max': max(amountData)},
-    'plotOptions': {'line': {'dataLabels': {'enabled': True},'enableMouseTracking': False}}
-        }]
+    if amountData and millageData:
+        data = [
+            {'chart':{"renderTo": chartID, "type": chart_type, "height": chart_height},
+        'series': [{"name": 'Amount', "data": amountData}, {"name": 'Millage', "data": millageData}],
+        'title' : {"text": 'Jhpiego Fuel Consumption'},
+        'xAxis' : {'categories': chart_fuel_data[0]},
+        'yAxis' : {"title": {"text": 'Fuel Price'}, 'max': max(amountData)},
+        'plotOptions': {'line': {'dataLabels': {'enabled': True},'enableMouseTracking': False}}
+            }]
     response = make_response(json.dumps(data))
     response.content_type = 'application/json'
-    return response
+    if amountData and millageData:
+        return response
+    else:
+        return response, 404
 
 
 

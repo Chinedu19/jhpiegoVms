@@ -5,7 +5,8 @@ $(document).ready(function() {
 		}
 	});
 	var loadCharts= function (duration){
-		url = '/admin/chart_data/'+ duration
+		try{
+			url = '/admin/chart_data/'+ duration
 		console.log(url)
 		request = $.getJSON(url);
 	request.done(function (data) {  // success callback
@@ -23,6 +24,28 @@ $(document).ready(function() {
 		// console.log(highChartInfo);
 		  $( "#" + apiData.chart.renderTo).highcharts(highChartInfo);
     });
+	request.error(function(event, jqxhr, exception) {
+		let emptyInfo = {title: {
+			text: 'No data found'
+		},
+		series: [{
+			type: 'line',
+			name: 'null',
+			data: []
+		}],
+		noData: {
+			style: {
+				fontWeight: 'bold',
+				fontSize: '15px',
+				color: '#303030'
+			}
+		}}
+		$( "#chart_ID").highcharts(emptyInfo);
+	});
+		}
+		
+		catch(e){
+		}	
 	
 	}
 	loadCharts("30")
